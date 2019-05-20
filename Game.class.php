@@ -8,13 +8,14 @@ class Game {
     private $players;
     private $gameDie;
 
-    function __construct($numPlayers) {
+    public function __construct($numPlayers) {
         $this->gameDie = new Dice();
         $this->createPlayerList($numPlayers);
     }
 
     public function play() {
         if (LOGGING) echo "started new game\n";
+
         foreach($this->players as &$player) {
             $player->rollDice();
         }
@@ -24,18 +25,9 @@ class Game {
         array_push($this->players, array_shift($this->players));
     }
 
-    public function getScores() {
-        $scores = [];
-        foreach($this->players as $player) {
-            $scores[] = ['name' => $player->getName(), 'points' => $player->getTotalPoints()];
-        }
-        return $scores;
-    }
-
     public function printScores() {
-        $scores = $this->getScores();
-        foreach ($scores as $score) {
-            echo $score['name']." - ".$score['points']."\n";
+        foreach($this->players as $player) {
+            echo $player->getName()." - ".$player->getTotalPoints()."\n";
         }
     }
 
@@ -80,7 +72,9 @@ class Game {
 
         if (LOGGING) {
             echo "these are the players: \n";
-            foreach ($this->players as $player) { echo "\t".$player->getName()."\n"; }
+            foreach ($this->players as $player) {
+                echo "\t".$player->getName()."\n";
+            }
         }
     }
 }

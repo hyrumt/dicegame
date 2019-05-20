@@ -5,11 +5,14 @@ define("LOGGING", false);
 
 function playGame($numPlayers, $numRounds) {
     $game = new Game($numPlayers);
+
     for ($i = 0; $i < $numRounds; $i++) {
         $game->play();
-        if (LOGGING) $game->printScores();
         $game->rotatePlayers();
+
+        if (LOGGING) $game->printScores();
     }
+
     $winners = $game->getWinners();
     if (count($winners) > 1) {
         $winnerNames = [];

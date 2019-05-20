@@ -3,7 +3,7 @@ require_once "Player.class.php";
 
 class GoForBroke extends Player {
 
-    function __construct($name) {
+    public function __construct($name) {
         $this->name = $name;
         $this->currentPoints = 0;
         $this->totalPoints = 0;
@@ -12,6 +12,7 @@ class GoForBroke extends Player {
     public function rollDice() {
         $numDice = 5;
         $points = 0;
+        $kept = "";
 
         if (LOGGING) echo $this->getName()." is rolling . . .\n";
 
@@ -20,11 +21,10 @@ class GoForBroke extends Player {
 
             $minDie = 0;
             $keepMinDie = true;
-            if (LOGGING) echo " - kept ";
             foreach($dice as $i => $die) {
-                // only keeps 4s
+                // only keeps 4s / 0s
                 if ($die->getNumber() == 4) {
-                    if (LOGGING) echo $die->getNumber().", ";
+                    $kept .= $die->getNumber().", ";
                     $numDice--;
                     $keepMinDie = false;
                 }
@@ -34,11 +34,12 @@ class GoForBroke extends Player {
             }
 
             if ($keepMinDie) {
-                if (LOGGING) echo $dice[$minDie]->getNumber().", ";
+                $kept .= $dice[$minDie]->getNumber().", ";
                 $points += $dice[$minDie]->getValue();
                 $numDice--;
             }
-            if (LOGGING) echo "\n";
+
+            if (LOGGING) echo " - kept $kept\n";
         }
 
         $this->setCurrentPoints($points);

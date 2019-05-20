@@ -19,7 +19,10 @@ abstract class Player {
     protected function setCurrentPoints($points) {
         $this->currentPoints = $points;
         $this->totalPoints += $points;
-        if (LOGGING) echo "\tcurrent points is ".$this->currentPoints.", total points is ".$this->totalPoints."\n";
+
+        if (LOGGING) {
+            echo "\tcurrent points is ".$this->currentPoints.", total points is ".$this->totalPoints."\n";
+        }
     }
 
     public function getTotalPoints() {
@@ -33,6 +36,7 @@ abstract class Player {
             $die->roll();
             $dice[] = $die;
         }
+
         if (LOGGING) {
             echo "\trolled: "; foreach($dice as $die) echo $die->getNumber().", ";
         }
